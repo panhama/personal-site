@@ -1,16 +1,22 @@
 "use client"
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Lightbox from 'react-18-image-lightbox'; 
+
 const flickrApiKey = '1e4e54710d8b6ceaea18b0ca77efbe52';
 const userId = '111456022%40N04';
  import style from './FetchImage.module.css';
  import { Masonry } from '@mui/lab';
 import { useMediaQuery } from '@mui/material';
+import { log } from 'console';
 
 
 export default function FetchAlbum({ Portfolio }: { Portfolio: boolean }) {
   const albumId = Portfolio ?  '72177720304357811':'72177720310757101';
   const [photos, setPhotos] = useState([]);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
   const isSmallScreen = useMediaQuery('(max-width:600px)'); 
   const isMediumScreen = useMediaQuery('(min-width:601px) and (max-width:1200px)');
   
@@ -66,7 +72,8 @@ export default function FetchAlbum({ Portfolio }: { Portfolio: boolean }) {
       <Masonry columns={isSmallScreen ? 1 : (isMediumScreen ? 2 : 3)} spacing={2}>
         {photos.map((photo: any) => (
           <div key={photo.id}>
-            <img src={photo.url} alt={photo.title} className={style.img} />
+            {/* <img src={photo.url} alt={photo.title}  /> */}
+            <Image src={photo.url} alt={photo.title} width={photo.width} height={photo.height} className={style.img}/>           
           </div>
         ))}
       </Masonry>
